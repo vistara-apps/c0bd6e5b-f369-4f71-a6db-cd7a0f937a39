@@ -6,6 +6,7 @@ import { StatsOverview } from '@/components/dashboard/StatsOverview';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Sparkles, TrendingUp, Music } from 'lucide-react';
+import { mockTracks } from '@/lib/mock-data';
 
 export default function HomePage() {
   return (
@@ -103,7 +104,7 @@ export default function HomePage() {
         </div>
 
         {/* Music Feed */}
-        <MusicFeed />
+        <MusicFeed tracks={mockTracks} />
       </div>
     </AppShell>
   );

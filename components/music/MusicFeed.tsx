@@ -1,26 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import { TrackCard } from './TrackCard';
 import { Track } from '@/lib/types';
 import { mockTracks } from '@/lib/mock-data';
+import { useMusic } from '@/lib/MusicContext';
 
 interface MusicFeedProps {
   tracks?: Track[];
 }
 
 export function MusicFeed({ tracks = mockTracks }: MusicFeedProps) {
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlay = (track: Track) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
-  };
-
-  const handlePause = () => {
-    setIsPlaying(false);
-  };
+  const { currentTrack, isPlaying, playTrack, pauseTrack } = useMusic();
 
   return (
     <div className="space-y-6">
@@ -42,9 +32,6 @@ export function MusicFeed({ tracks = mockTracks }: MusicFeedProps) {
           <TrackCard
             key={track.trackId}
             track={track}
-            isPlaying={isPlaying && currentTrack?.trackId === track.trackId}
-            onPlay={handlePlay}
-            onPause={handlePause}
           />
         ))}
       </div>
