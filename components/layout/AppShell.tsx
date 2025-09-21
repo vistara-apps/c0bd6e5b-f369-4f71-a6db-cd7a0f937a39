@@ -4,12 +4,15 @@ import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { MusicPlayer } from '../music/MusicPlayer';
+import { useMusic } from '@/lib/MusicContext';
 
 interface AppShellProps {
   children: ReactNode;
 }
 
 export function AppShell({ children }: AppShellProps) {
+  const { currentTrack, isPlaying, playTrack, pauseTrack, nextTrack, previousTrack } = useMusic();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-bg via-surface to-bg">
       <Header />
@@ -21,7 +24,14 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </main>
       </div>
-      <MusicPlayer />
+      <MusicPlayer
+        currentTrack={currentTrack}
+        isPlaying={isPlaying}
+        onPlay={playTrack}
+        onPause={pauseTrack}
+        onNext={nextTrack}
+        onPrevious={previousTrack}
+      />
     </div>
   );
 }

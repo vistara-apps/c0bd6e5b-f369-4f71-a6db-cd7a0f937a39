@@ -8,30 +8,26 @@ import { Track } from '@/lib/types';
 import { formatPrice, formatNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { TipModal } from './TipModal';
+import { useMusic } from '@/lib/MusicContext';
 
 interface TrackCardProps {
   track: Track;
   variant?: 'default' | 'compact';
-  isPlaying?: boolean;
-  onPlay?: (track: Track) => void;
-  onPause?: () => void;
 }
 
-export function TrackCard({ 
-  track, 
-  variant = 'default', 
-  isPlaying = false,
-  onPlay,
-  onPause 
+export function TrackCard({
+  track,
+  variant = 'default'
 }: TrackCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTipModal, setShowTipModal] = useState(false);
+  const { currentTrack, isPlaying, playTrack, pauseTrack } = useMusic();
 
   const handlePlayPause = () => {
-    if (isPlaying) {
-      onPause?.();
+    if (isPlaying && currentTrack?.trackId === track.trackId) {
+      pauseTrack();
     } else {
-      onPlay?.(track);
+      playTrack(track);
     }
   };
 

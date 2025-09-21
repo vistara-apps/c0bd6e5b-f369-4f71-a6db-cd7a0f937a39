@@ -105,7 +105,122 @@ This app is built as a Base Mini App with:
 - Ensure mobile-first responsive design
 - Use CSS variables for consistent theming
 
+## API Documentation
+
+### Frame Endpoints
+
+#### GET `/frame`
+Returns the main TuneSphere frame for Farcaster integration.
+
+**Response**: HTML with frame metadata for music discovery.
+
+#### POST `/api/frame`
+Handles frame interactions and button clicks.
+
+**Request Body**: Frame message from Farcaster
+**Response**: Updated frame HTML based on user interaction
+
+#### GET `/api/og`
+Generates Open Graph images for frame previews.
+
+**Query Parameters**:
+- `title`: Title for the OG image
+- `description`: Description for the OG image
+
+**Response**: PNG image (1200x630)
+
+### Data Models
+
+#### User
+```typescript
+{
+  userId: string;
+  farcasterId: string;
+  displayName: string;
+  profilePicUrl: string;
+  bio: string;
+  walletAddress: string;
+}
+```
+
+#### Track
+```typescript
+{
+  trackId: string;
+  creatorId: string;
+  title: string;
+  artistName: string;
+  audioUrl: string;
+  coverArtUrl: string;
+  genre: string;
+  currentPrice: number;
+  isMinted: boolean;
+  likes: number;
+  plays: number;
+  duration: string;
+}
+```
+
+#### Creator
+```typescript
+{
+  creatorId: string;
+  userId: string;
+  bio: string;
+  socialLinks: string[];
+  followers: number;
+  totalEarnings: number;
+}
+```
+
+#### Transaction
+```typescript
+{
+  transactionId: string;
+  type: 'tip' | 'purchase' | 'subscription';
+  amount: number;
+  timestamp: string;
+  senderAddress: string;
+  receiverAddress: string;
+  tokenId?: string;
+}
+```
+
+### Smart Contract Integration
+
+The app integrates with Base blockchain for:
+- **Track Ownership**: ERC-721 tokens for track ownership
+- **Tipping**: Direct ETH transfers to creators
+- **Subscriptions**: Smart contract-based subscription management
+- **Dynamic Pricing**: On-chain price updates
+
+### IPFS Integration
+
+Audio files and cover art are stored on IPFS for decentralized hosting:
+- **Audio Storage**: MP3/WAV files pinned to IPFS
+- **Cover Art**: Image files stored on IPFS
+- **Metadata**: Track metadata stored as JSON on IPFS
+
 ## Deployment
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- OnchainKit API key
+- Base network access
+
+### Environment Variables
+```bash
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_api_key
+NEXT_PUBLIC_BASE_RPC_URL=https://mainnet.base.org
+NODE_ENV=production
+```
+
+### Build & Deploy
+```bash
+npm run build
+npm start
+```
 
 The app is optimized for deployment on platforms that support Next.js:
 - Vercel (recommended)
